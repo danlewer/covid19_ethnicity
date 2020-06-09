@@ -1,0 +1,22 @@
+age,age_nhse
+Age 0 to 4,age0_19
+Age 5 to 7,age0_19
+Age 8 to 9,age0_19
+Age 10 to 14,age0_19
+Age 15,age0_19
+Age 16 to 17,age0_19
+Age 18 to 19,age0_19
+Age 20 to 24,age20_39
+Age 25 to 29,age20_39
+Age 30 to 34,age20_39
+Age 35 to 39,age20_39
+Age 40 to 44,age40_59
+Age 45 to 49,age40_59
+Age 50 to 54,age40_59
+Age 55 to 59,age40_59
+Age 60 to 64,age60_79
+Age 65 to 69,age60_79
+Age 70 to 74,age60_79
+Age 75 to 79,age60_79
+Age 80 to 84,age80
+Age 85 and over,age80

@@ -1,0 +1,27 @@
+ethnicity,ethnicity_nhse,group,short_name
+All categories: Ethnic group,NA,NA,
+White: Total,NA,NA,
+White: English/Welsh/Scottish/Northern Irish/British,British (White),White,White British
+White: Irish,Irish (White),White,White Irish
+White: Gypsy or Irish Traveller,Any other White background,White,White other
+White: Other White,Any other White background,White,White other
+Mixed/multiple ethnic group: Total,NA,Mixed,
+Mixed/multiple ethnic group: White and Black Caribbean,White and Black Caribbean (Mixed),Mixed,White and Black Caribbean
+Mixed/multiple ethnic group: White and Black African,White and Black African (Mixed),Mixed,White and Black African
+Mixed/multiple ethnic group: White and Asian,White and Asian (Mixed),Mixed,White and Asian
+Mixed/multiple ethnic group: Other Mixed,Any other Mixed background,Mixed,Mixed other
+Asian/Asian British: Total,NA,Asian,
+Asian/Asian British: Indian,Indian (Asian or Asian British),Asian,Indian
+Asian/Asian British: Pakistani,Pakistani (Asian or Asian British),Asian,Pakistani
+Asian/Asian British: Bangladeshi,Bangladeshi (Asian or Asian British),Asian,Bangladeshi
+Asian/Asian British: Chinese,Chinese (other ethnic group),Asian,Chinese
+Asian/Asian British: Other Asian,Any other Asian background,Asian,Asian other
+Black/African/Caribbean/Black British: Total,NA,Black,
+Black/African/Caribbean/Black British: African,African (Black or Black British),Black,African
+Black/African/Caribbean/Black British: Caribbean,Caribbean (Black or Black British),Black,Caribbean
+Black/African/Caribbean/Black British: Other Black,Any other Black background,Black,Black other
+Other ethnic group: Total,NA,Other,
+Other ethnic group: Arab,Any other ethnic group,Other,Other
+Other ethnic group: Any other ethnic group,Any other ethnic group,Other,Other
+NA,Not stated,NA,
+NA,No match ,NA,
