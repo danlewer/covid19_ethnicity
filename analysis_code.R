@@ -10,7 +10,6 @@
 # -- census 2011 population estimates: table DC2101EW - Ethnic group by sex by age. nomisweb.co.uk
 
 library(data.table)
-library(popEpi) # for vectorized poisson confidence intervals
 library(RColorBrewer)
 library(colorspace) # for 'lighten' function
 
@@ -114,8 +113,16 @@ smr[, short_names := ifelse(is.na(short_name), ethnicity, short_name)]
 bold <- bold[smr$short_name != 'Other']
 smr <- smr[short_names != 'Other']
 
-ci1 <- poisson.ci(smr$d, smr$exp1)[, c('rate', 'lower', 'upper')]
-ci2 <- poisson.ci(smr$d, smr$exp2)[, c('rate', 'lower', 'upper')]
+vpt <- function(vx, vt) { # poisson test across vector
+  pt <- function(x, t) {
+    r <- poisson.test(x, t)
+    c(x = x, t = t, rate = x/t, lower = r$conf.int[1], upper = r$conf.int[2], p_value = r$p.value)
+  }
+  t(mapply(pt, x = vx, t = vt))
+}
+
+ci1 <- vpt(smr$d, smr$exp1)[, c('rate', 'lower', 'upper', 'p_value')]
+ci2 <- vpt(smr$d, smr$exp2)[, c('rate', 'lower', 'upper', 'p_value')]
 
 #-----
 # plot
@@ -134,7 +141,7 @@ x2r <- 0:19 + 0.6
 cix2 <- rowMeans(cbind(x2l, x2r))
 cil <- rowMeans(cbind(cix1, cix2))
 
-ylims = c(min(cbind(ci1, ci2)), max(cbind(ci1, ci2)))
+ylims = range(rbind(ci1, ci2)[,-4])
 yx <- c(0.5, 1, 2, 5, 10)
 
 #png('covid_smr_ethnicity_27apr2020.png', height = 7.5, width = 10, units = 'in', res = 300)
@@ -174,8 +181,13 @@ fci <- function(x) {
   x <- gsub(' ', '', x)
   gsub('\\(', ' \\(', x)
 }
+p_summarise <- function(p) {
+  x <- round(p, 3)
+  x[p < 0.001] <- '<0.001'
+  x
+}
 
-nice_table <- smr[, c('group', 'short_name', 'd', 'exp1', 'exp2')]
+nice_table <- smr[, c('group', 'short_names', 'd', 'exp1', 'exp2')]
 nice_table[, smr1 := fci(ci1)]
 nice_table[, smr2 := fci(ci2)]
 nice_table[, d := format(d, big.mark = ',')]
@@ -185,8 +197,10 @@ nice_table[, x := 1]
 nice_table[, x := cumsum(x), group]
 nice_table[, x := x != 1]
 nice_table$group[nice_table$x] <- ''
-nice_table <- nice_table[, c('group', 'short_name', 'd', 'exp1', 'smr1', 'exp2', 'smr2')]
-setnames(nice_table, c('group', 'short_name', 'd', 'exp1', 'smr1', 'exp2', 'smr2'),
-         c('Group', 'Subgroup', 'Observed deaths', 'Expected deaths (adjusting for age)', 'SMR (adjusting for age)', 'Expected deaths (adjusting for age and region)', 'SMR (adjusting for age and region'))
+nice_table[, p1 := p_summarise(ci1[,4])]
+nice_table[, p2 := p_summarise(ci2[,4])]
+nice_table <- nice_table[, c('group', 'short_names', 'd', 'exp1', 'smr1', 'p1', 'exp2', 'smr2', 'p2')]
+setnames(nice_table, c('group', 'short_names', 'd', 'exp1', 'smr1', 'p1', 'exp2', 'smr2', 'p2'),
+         c('Group', 'Subgroup', 'Observed deaths', 'Expected deaths (adjusting for age)', 'SMR (adjusting for age)', 'p-value (adjusting for age)', 'Expected deaths (adjusting for age and region)', 'SMR (adjusting for age and region)', 'p-value (adjusting for age and region)'))
 
 #fwrite(nice_table, 'ethnicity_smr_table_28apr2020.csv')
